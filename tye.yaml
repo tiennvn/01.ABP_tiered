@@ -1,9 +1,3 @@
-# tye application configuration file
-# read all about it at https://github.com/dotnet/tye
-#
-# when you've given us a try, we'd love to know what you think:
-#    https://aka.ms/AA7q20u
-#
 name: acme.bookstore
 services:
 - name: acme-bookstore-web
@@ -21,3 +15,22 @@ services:
   bindings:
   - protocol: https
     port: 44354
+- name: redis
+  image: redis
+  replicas: 1
+  bindings:
+    - containerPort: 6379
+      port: 6379
+- name: sqlserver
+  image: mcr.microsoft.com/mssql/server:2019-latest
+  bindings:
+  - containerPort: 1433
+    port: 1433
+  env:
+  - ACCEPT_EULA=Y
+  - SA_PASSWORD=Abcd1234
+  - MSSQL_PID=Express
+  # volumes appear here
+  volumes:
+    - source: /SqlServer/data
+      target: /var/opt/mssql/data
