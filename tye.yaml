@@ -1,20 +1,6 @@
 name: acme.bookstore
 services:
-- name: acme-bookstore-web
-  project: src/Acme.BookStore.Web/Acme.BookStore.Web.csproj
-  bindings:
-  - protocol: https
-    port: 44342
-- name: acme-bookstore-identityserver
-  project: src/Acme.BookStore.IdentityServer/Acme.BookStore.IdentityServer.csproj
-  bindings:
-  - protocol: https
-    port: 44345
-- name: acme-bookstore-httpapi-host
-  project: src/Acme.BookStore.HttpApi.Host/Acme.BookStore.HttpApi.Host.csproj
-  bindings:
-  - protocol: https
-    port: 44354
+# Redis server
 - name: redis
   image: redis
   replicas: 1
@@ -24,6 +10,8 @@ services:
   volumes:
     - source: AppData/Redis/data
       target: /data/
+
+# SQL server
 - name: sqlserver
   image: mcr.microsoft.com/mssql/server:2019-latest
   bindings:
@@ -37,3 +25,20 @@ services:
   volumes:
     - source: AppData/SqlServer/data
       target: /var/opt/mssql/data
+
+# 3 main project: identity, httpapi, webapp
+- name: acme-bookstore-identityserver
+  project: src/Acme.BookStore.IdentityServer/Acme.BookStore.IdentityServer.csproj
+  bindings:
+  - protocol: https
+    port: 44345
+- name: acme-bookstore-httpapi-host
+  project: src/Acme.BookStore.HttpApi.Host/Acme.BookStore.HttpApi.Host.csproj
+  bindings:
+  - protocol: https
+    port: 44354
+- name: acme-bookstore-web
+  project: src/Acme.BookStore.Web/Acme.BookStore.Web.csproj
+  bindings:
+  - protocol: https
+    port: 44342
