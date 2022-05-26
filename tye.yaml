@@ -1,0 +1,23 @@
+# tye application configuration file
+# read all about it at https://github.com/dotnet/tye
+#
+# when you've given us a try, we'd love to know what you think:
+#    https://aka.ms/AA7q20u
+#
+name: acme.bookstore
+services:
+- name: acme-bookstore-web
+  project: src/Acme.BookStore.Web/Acme.BookStore.Web.csproj
+  bindings:
+  - protocol: https
+    port: 44342
+- name: acme-bookstore-identityserver
+  project: src/Acme.BookStore.IdentityServer/Acme.BookStore.IdentityServer.csproj
+  bindings:
+  - protocol: https
+    port: 44345
+- name: acme-bookstore-httpapi-host
+  project: src/Acme.BookStore.HttpApi.Host/Acme.BookStore.HttpApi.Host.csproj
+  bindings:
+  - protocol: https
+    port: 44354
